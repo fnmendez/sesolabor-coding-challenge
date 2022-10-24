@@ -14,14 +14,13 @@ module.exports = (logSources, printer) => {
  * that the logEntries within a same logSource are in chronological order.
  * So they can only be unsorted in between the different n logSources.
  *
- * O(k*n*log k) time complexity, as there are n*k logEntries to push/poll from minHeap
+ * O(k * n * log k) time complexity, as there are n*k logEntries to push/poll from minHeap
  * O(k) space complexity, as we only store k logSources in the minHeap
  *
  * k being amount of logSources
  * n being amount of logEntries per logSource (as stated in README)
  */
 
-// const USE_TIME_IMPROVEMENT = true; // Did not improve, just for reference
 function minHeapSolution(logSources, printer) {
   const minHeap = new MinHeap();
   // First MinHeap fill
@@ -36,15 +35,6 @@ function minHeapSolution(logSources, printer) {
     const [value, index] = minHeap.poll();
     printer.print(value);
     const logEntry = logSources[index].pop();
-    /**
-     * Time improvement *try*:
-     * Check whether the logEntry we are going to push would be polled in the next iteration.
-     * => Did not improve significantly (just for reference).
-     */
-    // while (USE_TIME_IMPROVEMENT && logEntry && logEntry.date < minHeap.peek()[0].date) {
-    //   printer.print(logEntry);
-    //   logEntry = logSources[index].pop();
-    // }
     if (logEntry) {
       minHeap.push(logEntry, index);
     }
